@@ -1,10 +1,10 @@
 import fs from "fs";
 import fetch from "node-fetch";
 
-const USER_ID = 161759290; 
+const USER_ID = 8213751331; 
 const WEBHOOK = process.env.DISCORD_WEBHOOK;
 
-const BADGE_URL = `https://badges.roblox.com/v1/users/${USER_ID}/badges?limit=15&sortOrder=Desc`;
+const BADGE_URL = `https://badges.roblox.com/v1/users/${USER_ID}/badges?limit=10&sortOrder=Desc`;
 const PRESENCE_URL = `https://presence.roblox.com/v1/presence/users`;
 const STATE_FILE = "state.json";
 
