@@ -1,0 +1,26 @@
+name: monitor
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: node index.js
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Save state
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@github.com"
+          git add state.json
+          git commit -m "update state" || echo "no changes"
+          git push
