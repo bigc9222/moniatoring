@@ -32,13 +32,26 @@ async function checkBadges(state) {
   const res = await fetch(BADGE_URL);
   const data = await res.json();
 
+  if (!data || !Array.isArray(data.data)) {
+    console.log("Badge API returned unexpected data:", data);
+    return;
+  }
+
   const current = data.data.map(b => b.id);
+
+  // First run guard
+  if (!state.badges.length) {
+    state.badges = current;
+    return;
+  }
+
   const added = current.filter(id => !state.badges.includes(id));
   const removed = state.badges.filter(id => !current.includes(id));
 
   for (const id of added) {
     await sendWebhook(`🆕 Badge added: ${id}`);
   }
+
   for (const id of removed) {
     await sendWebhook(`❌ Badge removed: ${id}`);
   }
